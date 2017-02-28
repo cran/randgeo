@@ -1,23 +1,42 @@
-randgeo
-=======
+randgeo: random WKT and GeoJSON
+===============================
 
 
 
 [![Build Status](https://travis-ci.org/ropensci/randgeo.svg?branch=master)](https://travis-ci.org/ropensci/randgeo)
 [![codecov.io](https://codecov.io/github/ropensci/randgeo/coverage.svg?branch=master)](https://codecov.io/github/ropensci/randgeo?branch=master)
+[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/randgeo?color=C9A115)](https://github.com/metacran/cranlogs.app)
+[![cran version](http://www.r-pkg.org/badges/version/randgeo)](https://cran.r-project.org/package=randgeo)
 
-`rangeo` - random WKT or GeoJSON
+**randgeo** generates random points and shapes in GeoJSON and WKT formats for use
+in examples, teaching, or statistical applications.
 
-adapted from <https://github.com/tmcw/geojson-random> to have a pure R
-implementation without any dependencies.
+Points and shapes are generated in the long/lat coordinate system and with
+appropriate spherical geometry; random points are distributed evenly across
+the globe, and random shapes are sized according to a maximum great-circle
+distance from the center of the shape. 
+
+**randgeo** was adapted from <https://github.com/tmcw/geojson-random> to have a pure R
+implementation without any dependencies as well as appropriate geometry. Data generated
+by **randgeo** may be processed or displayed of with packages such as
+[**sf**](https://cran.r-project.org/package=sf),
+[**wicket**](https://cran.r-project.org/package=wicket),
+[**geojson**](https://cran.r-project.org/package=geojson),
+[**wellknown**](https://cran.r-project.org/package=wellknown),
+[**geojsonio**](https://cran.r-project.org/package=geojsonio), or
+[**lawn**](https://cran.r-project.org/package=lawn).
 
 Package API:
 
-* `rg_position` - random position
+* `rg_position` - random position (lon, lat)
 * `geo_point` - random GeoJSON point
 * `geo_polygon` - random GeoJSON polygon
 * `wkt_point` - random WKT point
 * `wkt_polygon` - random WKT polygon
+
+## Docs
+
+<https://ropensci.github.io/randgeo/>
 
 ## Install
 
@@ -40,18 +59,19 @@ devtools::install_github("ropensci/randgeo")
 library("randgeo")
 ```
 
-## random position
+## Generate a random position
 
 
 ```r
 rg_position()
 #> [[1]]
-#> [1] -15.44412 -38.92475
+#> [1] 123.9114  28.7060
 ```
 
-## random GeoJSON
+## Genrate random GeoJSON
 
-point
+Random point - evenly distributed across the sphere.  The `bbox` option allows
+you to limit points to within long/lat bounds.
 
 
 ```r
@@ -69,14 +89,14 @@ geo_point()
 #> [1] "Point"
 #> 
 #> $features[[1]]$geometry$coordinates
-#> [1]  16.47672 -74.05690
+#> [1] 91.63560 11.12243
 #> 
 #> 
 #> $features[[1]]$properties
 #> list()
 ```
 
-polygon
+Random polygon - centered on a random point, with default maximum size
 
 
 ```r
@@ -96,37 +116,37 @@ geo_polygon()
 #> $features[[1]]$geometry$coordinates
 #> $features[[1]]$geometry$coordinates[[1]]
 #> $features[[1]]$geometry$coordinates[[1]][[1]]
-#> [1] 155.48675  83.14403
+#> [1] 167.5056  11.7631
 #> 
 #> $features[[1]]$geometry$coordinates[[1]][[2]]
-#> [1] 161.44543  79.63525
+#> [1] 169.932405  -1.716375
 #> 
 #> $features[[1]]$geometry$coordinates[[1]][[3]]
-#> [1] 157.6343  79.8766
+#> [1] 163.440217   2.163558
 #> 
 #> $features[[1]]$geometry$coordinates[[1]][[4]]
-#> [1] 154.01417  77.26018
+#> [1] 160.50593477   0.07725084
 #> 
 #> $features[[1]]$geometry$coordinates[[1]][[5]]
-#> [1] 148.58069  79.78645
+#> [1] 156.2431251  -0.7218273
 #> 
 #> $features[[1]]$geometry$coordinates[[1]][[6]]
-#> [1] 149.22902  82.59558
+#> [1] 154.4680334   0.0508432
 #> 
 #> $features[[1]]$geometry$coordinates[[1]][[7]]
-#> [1] 148.89058  85.07908
+#> [1] 152.965884   4.109539
 #> 
 #> $features[[1]]$geometry$coordinates[[1]][[8]]
-#> [1] 145.9176  87.6202
+#> [1] 161.803351   5.745208
 #> 
 #> $features[[1]]$geometry$coordinates[[1]][[9]]
-#> [1] 151.3219  88.6061
+#> [1] 161.771682   6.510662
 #> 
 #> $features[[1]]$geometry$coordinates[[1]][[10]]
-#> [1] 153.26898  90.73207
+#> [1] 162.30199  11.74731
 #> 
 #> $features[[1]]$geometry$coordinates[[1]][[11]]
-#> [1] 155.48675  83.14403
+#> [1] 167.5056  11.7631
 #> 
 #> 
 #> 
@@ -135,7 +155,7 @@ geo_polygon()
 #> list()
 ```
 
-visualize
+Visualize your shapes with **lawn**.
 
 
 ```r
@@ -145,22 +165,22 @@ lawn::view(jsonlite::toJSON(geo_polygon(count = 4), auto_unbox = TRUE))
 ![map](inst/img/plot.png)
 
 
-## random WKT
+## Generate random WKT
 
-point
+Random point
 
 
 ```r
 wkt_point()
-#> [1] "POINT (-163.2614716 -83.3048749)"
+#> [1] "POINT (-156.8267949 1.0421837)"
 ```
 
-polygon
+Random polygon
 
 
 ```r
 wkt_polygon()
-#> [1] "POLYGON ((89.8048585 61.8254312, 88.9329390 60.7697099, 92.5001356 58.0362473, 93.8532175 53.5291327, 88.5455690 59.9501290, 90.1393320 56.1050423, 89.0807555 56.4119115, 82.1906641 60.6291550, 83.4751727 68.4828310, 88.2114607 66.3359247, 89.8048585 61.8254312))"
+#> [1] "POLYGON ((-39.6435291 -35.6439781, -50.8816485 -37.1900222, -56.3625756 -41.0998361, -52.4500131 -36.5888093, -56.2291407 -36.3080232, -57.3634195 -35.4103150, -55.7971759 -34.6454685, -60.6118766 -33.4285820, -58.9087262 -31.8995220, -53.2012409 -32.4368328, -39.6435291 -35.6439781))"
 ```
 
 ## Meta

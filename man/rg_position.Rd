@@ -7,10 +7,11 @@
 rg_position(count = 1, bbox = NULL)
 }
 \arguments{
-\item{count}{(integer/numeric) number of Polygons. Default: 1}
+\item{count}{(integer/numeric) number of positions. Default: 1}
 
-\item{bbox}{(integer/numeric) bounding box, numeric vector of the form
-\code{west, south, east, north}. optional}
+\item{bbox}{(integer/numeric) lat/long bounding box from which to generate
+positions; numeric vector of the form
+\code{west (long), south (lat), east (long), north (lat)}. optional}
 }
 \value{
 A list, each element is a numeric vector length two of long, lat
@@ -23,4 +24,10 @@ rg_position()
 rg_position(10)
 rg_position(100)
 rg_position(bbox = c(50, 50, 60, 60))
+
+# coerce to data.frame
+stats::setNames(
+  do.call("rbind.data.frame", rg_position(10)),
+  c('lng', 'lat')
+)
 }
