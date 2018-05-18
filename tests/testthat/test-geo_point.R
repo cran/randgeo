@@ -3,11 +3,12 @@ context("geo_point")
 test_that("geo_point works", {
   aa <- geo_point()
 
-  expect_is(aa, "list")
+  expect_is(aa, "geo_list")
+  expect_is(unclass(aa), "list")
   expect_equal(aa$type, "FeatureCollection")
   expect_is(aa$features, "list")
   expect_is(aa$features[[1]], "list")
-  expect_identical(aa$features[[1]]$properties, list())
+  expect_null(aa$features[[1]]$properties)
   expect_equal(aa$features[[1]]$type, "Feature")
 
   expect_is(aa$features[[1]]$geometry$coordinates, "numeric")

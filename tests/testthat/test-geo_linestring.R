@@ -1,7 +1,8 @@
-context("geo_polygon")
+context("geo_linestring")
 
-test_that("geo_polygon works", {
-  aa <- geo_polygon()
+test_that("geo_linestring works", {
+  set.seed(42)
+  aa <- geo_linestring()
 
   expect_is(aa, "geo_list")
   expect_is(unclass(aa), "list")
@@ -27,17 +28,17 @@ test_that("geo_polygon works", {
   expect_lte(abs(coord[2]), 90)
 })
 
-test_that("geo_polygon fails well", {
+test_that("geo_linestring fails well", {
   skip_on_cran()
 
-  expect_error(geo_polygon(count = "foo"),
-                         "count must be of class numeric, integer")
-  expect_error(geo_polygon(count = list(foo = 5)),
-                         "count must be of class numeric, integer")
-  expect_error(geo_polygon(count = mtcars),
-                         "count must be of class numeric, integer")
+  expect_error(geo_linestring(count = "foo"),
+               "count must be of class numeric, integer")
+  expect_error(geo_linestring(count = list(foo = 5)),
+               "count must be of class numeric, integer")
+  expect_error(geo_linestring(count = mtcars),
+               "count must be of class numeric, integer")
 
-  expect_error(geo_polygon(stuff = mtcars), "unused argument")
+  expect_error(geo_linestring(stuff = mtcars), "unused argument")
 
-  expect_error(geo_polygon(bbox = 4), "length\\(bbox\\) == 4 is not TRUE")
+  expect_error(geo_linestring(bbox = 4), "length\\(bbox\\) == 4 is not TRUE")
 })
